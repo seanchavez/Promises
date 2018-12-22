@@ -1,6 +1,10 @@
 {
-  "name": "Create a Promise Chain in JavaScript with Promise.prototype.then()",
+  "name": "Promises",
   "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/index.html"
+  },
   "devDependencies": {
     "parcel-bundler": "^1.11.0"
   },
