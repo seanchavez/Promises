@@ -1,4 +1,5 @@
 // #region Setup
+import $ from 'jquery';
 const API_URL = 'https://starwars.egghead.training/';
 const output = document.getElementById('output');
 const spinner = document.getElementById('spinner');
@@ -12,16 +13,20 @@ const getFilmTitles = films => {
 };
 // #endregion
 
-fetch(API_URL + 'movies')
-  .then(response => {
-    if (!response.ok) {
-      //throw Error('Unsuccessful response');
-      return Promise.reject(new Error('Unsuccessful response'));
-    }
-    return response.json().then(films => {
-      output.innerText = getFilmTitles(films);
-      return films;
-    });
+fetch(API_URL + 'films');
+//   .then(response => {
+//     if (!response.ok) {
+//       throw new Error('Unsuccessful response');
+//       //return Promise.reject(new Error('Unsuccessful response'));
+//     }
+//     return response.json().then(films => {
+//       output.innerText = getFilmTitles(films);
+//       return films;
+//     });
+//   })
+Promise.resolve($.getJSON(API_URL + 'films'))
+  .then(films => {
+    output.innerText = getFilmTitles(films);
   })
   .catch(error => {
     console.warn(error);
