@@ -5,6 +5,7 @@ const spinner = document.getElementById('spinner');
 
 const getFilmTitles = films => {
   return films
+    .slice()
     .sort((a, b) => a.episode_id - b.episode_id)
     .map(film => `${film.episode_id}. ${film.title}`)
     .join('\n');
@@ -18,16 +19,17 @@ fetch(API_URL + 'movies')
     }
     return response.json().then(films => {
       output.innerText = getFilmTitles(films);
+      return films;
     });
   })
   .catch(error => {
     console.warn(error);
     output.innerText = ':(';
-    throw new Error("...")
+    return [];
   })
-  .then(() => {
+  .finally(() => {
     spinner.remove();
-  },
-  () => {
-    spinner.remove();
+  })
+  .then(films => {
+    console.log(films);
   });
