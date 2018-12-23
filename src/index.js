@@ -38,10 +38,21 @@
 
 function sleep(ms) {
   return new Promise(resolve => {
+    throw new Error('...');
     setTimeout(resolve, ms);
   });
 }
 
-sleep(1000).then(() => {
-  console.log('Fulfilled');
-});
+console.log('Right Away');
+
+sleep(1000)
+  .then(() => {
+    console.log('After 1s');
+  })
+  .then(() => sleep(1000))
+  .then(() => {
+    console.log('After 2s');
+  })
+  .catch(() => {
+    console.log('Rejected');
+  });
