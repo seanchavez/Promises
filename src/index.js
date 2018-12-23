@@ -15,7 +15,8 @@ const getFilmTitles = films => {
 fetch(API_URL + 'movies')
   .then(response => {
     if (!response.ok) {
-      throw Error('Unsuccessful response');
+      //throw Error('Unsuccessful response');
+      return Promise.reject(new Error('Unsuccessful response'));
     }
     return response.json().then(films => {
       output.innerText = getFilmTitles(films);
@@ -25,11 +26,7 @@ fetch(API_URL + 'movies')
   .catch(error => {
     console.warn(error);
     output.innerText = ':(';
-    return [];
   })
   .finally(() => {
     spinner.remove();
-  })
-  .then(films => {
-    console.log(films);
   });
