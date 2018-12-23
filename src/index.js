@@ -11,7 +11,7 @@ const getFilmTitles = films => {
 };
 // #endregion
 
-fetch(API_URL + 'films')
+fetch(API_URL + 'movies')
   .then(response => {
     if (!response.ok) {
       throw Error('Unsuccessful response');
@@ -23,4 +23,11 @@ fetch(API_URL + 'films')
   .catch(error => {
     console.warn(error);
     output.innerText = ':(';
+    throw new Error("...")
+  })
+  .then(() => {
+    spinner.remove();
+  },
+  () => {
+    spinner.remove();
   });
