@@ -3,11 +3,25 @@ const output = document.getElementById('output');
 
 output.innerText = 'Loading...';
 
-fetch(API_URL + 'films')
-  .then(response => response.json())
-  .then(films => {
-    output.innerText = getFilmTitles(films);
-  });
+// fetch(API_URL + 'films')
+//   .then(response => response.json())
+//   .then(films => {
+//     output.innerText = getFilmTitles(films);
+//   });
+
+fetch(API_URL + 'films').then(
+  //onFulfilled
+  response => {
+    return response.json().then(films => {
+      output.innerText = getFilmTitles(films);
+    });
+  },
+  //onRejected
+  error => {
+    console.warn(error);
+    output.innerText = ':(';
+  },
+);
 
 const getFilmTitles = films => {
   return films
