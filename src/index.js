@@ -1,4 +1,4 @@
-const API_URL = 'https://star-wars.egghead.training/';
+const API_URL = 'https://starwars.egghead.training/';
 const output = document.getElementById('output');
 
 output.innerText = 'Loading...';
@@ -11,7 +11,10 @@ output.innerText = 'Loading...';
 
 fetch(API_URL + 'films')
   .then(response => {
-    return Promise.reject('Invalid JSON').then(films => {
+    if (!response.ok) {
+      throw Error('Unsuccessful response');
+    }
+    return response.json().then(films => {
       output.innerText = getFilmTitles(films);
     });
   })
