@@ -1,4 +1,4 @@
-const API_URL = 'https://starwars.egghead.training/';
+const API_URL = 'https://star-wars.egghead.training/';
 const output = document.getElementById('output');
 
 output.innerText = 'Loading...';
@@ -9,19 +9,16 @@ output.innerText = 'Loading...';
 //     output.innerText = getFilmTitles(films);
 //   });
 
-fetch(API_URL + 'films').then(
-  //onFulfilled
-  response => {
-    return response.json().then(films => {
+fetch(API_URL + 'films')
+  .then(response => {
+    return Promise.reject('Invalid JSON').then(films => {
       output.innerText = getFilmTitles(films);
     });
-  },
-  //onRejected
-  error => {
+  })
+  .catch(error => {
     console.warn(error);
     output.innerText = ':(';
-  },
-);
+  });
 
 const getFilmTitles = films => {
   return films
