@@ -1,19 +1,19 @@
 // #region Setup
-import $ from 'jquery';
-const API_URL = 'https://starwars.egghead.training/';
-const output = document.getElementById('output');
-const spinner = document.getElementById('spinner');
+// import $ from 'jquery';
+// const API_URL = 'https://starwars.egghead.training/';
+// const output = document.getElementById('output');
+// const spinner = document.getElementById('spinner');
 
-const getFilmTitles = films => {
-  return films
-    .slice()
-    .sort((a, b) => a.episode_id - b.episode_id)
-    .map(film => `${film.episode_id}. ${film.title}`)
-    .join('\n');
-};
-// #endregion
+// const getFilmTitles = films => {
+//   return films
+//     .slice()
+//     .sort((a, b) => a.episode_id - b.episode_id)
+//     .map(film => `${film.episode_id}. ${film.title}`)
+//     .join('\n');
+// };
+// // #endregion
 
-fetch(API_URL + 'films');
+// fetch(API_URL + 'films');
 //   .then(response => {
 //     if (!response.ok) {
 //       throw new Error('Unsuccessful response');
@@ -24,14 +24,24 @@ fetch(API_URL + 'films');
 //       return films;
 //     });
 //   })
-Promise.resolve($.getJSON(API_URL + 'films'))
-  .then(films => {
-    output.innerText = getFilmTitles(films);
-  })
-  .catch(error => {
-    console.warn(error);
-    output.innerText = ':(';
-  })
-  .finally(() => {
-    spinner.remove();
+// Promise.resolve($.getJSON(API_URL + 'films'))
+//   .then(films => {
+//     output.innerText = getFilmTitles(films);
+//   })
+//   .catch(error => {
+//     console.warn(error);
+//     output.innerText = ':(';
+//   })
+//   .finally(() => {
+//     spinner.remove();
+//   });
+
+function sleep(ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
   });
+}
+
+sleep(1000).then(() => {
+  console.log('Fulfilled');
+});
