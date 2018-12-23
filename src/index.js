@@ -36,23 +36,46 @@
 //     spinner.remove();
 //   });
 
-function sleep(ms) {
-  return new Promise(resolve => {
-    throw new Error('...');
-    setTimeout(resolve, ms);
+// function sleep(ms) {
+//   return new Promise(resolve => {
+//     throw new Error('...');
+//     setTimeout(resolve, ms);
+//   });
+// }
+
+// console.log('Right Away');
+
+// sleep(1000)
+//   .then(() => {
+//     console.log('After 1s');
+//   })
+//   .then(() => sleep(1000))
+//   .then(() => {
+//     console.log('After 2s');
+//   })
+//   .catch(() => {
+//     console.log('Rejected');
+//   });
+
+const fs = require('fs');
+
+function readFile(path, encoding) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(path, encoding, (error, contents) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(contents);
+      }
+    });
   });
 }
 
-console.log('Right Away');
-
-sleep(1000)
-  .then(() => {
-    console.log('After 1s');
-  })
-  .then(() => sleep(1000))
-  .then(() => {
-    console.log('After 2s');
-  })
-  .catch(() => {
-    console.log('Rejected');
-  });
+readFile(__filename, 'utf8').then(
+  contents => {
+    console.log(contents);
+  },
+  error => {
+    console.error(error);
+  },
+);
