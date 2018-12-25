@@ -72,13 +72,29 @@ const util = require('util');
 //   });
 // }
 
-const readFile = util.promisify(fs.readFile);
+// const readFile = util.promisify(fs.readFile);
 
-readFile(__filename, 'utf8').then(
-  contents => {
-    console.log(contents);
-  },
-  error => {
-    console.error(error);
-  },
-);
+// readFile(__filename, 'utf8').then(
+//   contents => {
+//     console.log(contents);
+//   },
+//   error => {
+//     console.error(error);
+//   },
+// );
+
+function resolveAfter(ms, value) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(value);
+    }, ms);
+  });
+}
+
+const promiseA = resolveAfter(1000, 'A');
+const promiseB = resolveAfter(500, 'B');
+
+const fastestPromise = Promise.race([promiseA, promiseB]);
+fastestPromise.then(value => {
+  console.log(value);
+});
