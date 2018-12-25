@@ -57,8 +57,8 @@
 //     console.log('Rejected');
 //   });
 
-const fs = require('fs');
-const util = require('util');
+// const fs = require('fs');
+// const util = require('util');
 
 // function readFile(path, encoding) {
 //   return new Promise((resolve, reject) => {
@@ -83,15 +83,15 @@ const util = require('util');
 //   },
 // );
 
-function resolveAfter(ms, value) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(value);
-    }, ms);
-  });
-}
+// function resolveAfter(ms, value) {
+//   return new Promise(resolve => {
+//     setTimeout(() => {
+//       resolve(value);
+//     }, ms);
+//   });
+// }
 
-const promise = resolveAfter(1000, 'A');
+//const promise = resolveAfter(1000, 'A');
 // const promiseB = resolveAfter(500, 'B');
 
 // const fastestPromise = Promise.race([promiseA, promiseB]);
@@ -111,23 +111,60 @@ const promise = resolveAfter(1000, 'A');
 //   });
 // }
 
-function timeout(ms, promise) {
-  let timeoutID;
-  const timeoutPromise = new Promise((_, reject) => {
-    timeoutID = setTimeout(() => {
-      reject(new Error(`Operation timed out after ${ms}ms`));
-    }, ms);
-  });
-  return Promise.race([promise, timeoutPromise]).finally(() => {
-    clearTimeout(timeoutID);
+// function timeout(ms, promise) {
+//   let timeoutID;
+//   const timeoutPromise = new Promise((_, reject) => {
+//     timeoutID = setTimeout(() => {
+//       reject(new Error(`Operation timed out after ${ms}ms`));
+//     }, ms);
+//   });
+//   return Promise.race([promise, timeoutPromise]).finally(() => {
+//     clearTimeout(timeoutID);
+//   });
+// }
+
+// timeout(5000, promise).then(
+//   value => {
+//     console.log(value);
+//   },
+//   error => {
+//     console.error(error.message);
+//   },
+// );
+
+// #region Setuo
+const API_URL = 'https://starwars.egghead.training/';
+
+const output = document.getElementById('output');
+const spinner = document.getElementById('spinner');
+
+function queryAPI(endpoint) {
+  return fetch(API_URL + endpoint).then(response => {
+    return response.ok
+      ? response.json()
+      : Promise.reject(Error('Unsuccessful response'));
   });
 }
+// #endregion
 
-timeout(5000, promise).then(
-  value => {
-    console.log(value);
-  },
-  error => {
-    console.error(error.message);
-  },
-);
+queryAPI('films')
+  .then(films => {
+    return queryAPI('planets').then(planets => {
+      output.innerText =
+        `${films.length} films, ` + `${planets.length} planets, `;
+    });
+  })
+  .finally(() => {
+    spinner.remove();
+  });
+
+const promise = Promise.all([queryAPI('films'), queryAPI('planets')]);
+
+promise.then(results => {
+  const films = results[0];
+  const planets = results[1];
+  output.innerText = `${films.length} films, ` + `${planets.length} planets, `;
+})
+.finally (() => {
+  spinner.remove();
+})
