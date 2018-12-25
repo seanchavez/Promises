@@ -133,18 +133,18 @@
 // );
 
 // #region Setuo
-const API_URL = 'https://starwars.egghead.training/';
+// const API_URL = 'https://starwars.egghead.training/';
 
-const output = document.getElementById('output');
-const spinner = document.getElementById('spinner');
+// const output = document.getElementById('output');
+// const spinner = document.getElementById('spinner');
 
-function queryAPI(endpoint) {
-  return fetch(API_URL + endpoint).then(response => {
-    return response.ok
-      ? response.json()
-      : Promise.reject(Error('Unsuccessful response'));
-  });
-}
+// function queryAPI(endpoint) {
+//   return fetch(API_URL + endpoint).then(response => {
+//     return response.ok
+//       ? response.json()
+//       : Promise.reject(Error('Unsuccessful response'));
+//   });
+// }
 // #endregion
 
 // queryAPI('films')
@@ -172,8 +172,8 @@ function queryAPI(endpoint) {
 //   .finally(() => {
 //     spinner.remove();
 //   });
-
-const API_URL = 'https://starwars.egghead.training';
+import '@babel/polyfill';
+const API_URL = 'https://starwars.egghead.training/';
 
 const output = document.getElementById('output');
 const spinner = document.getElementById('spinner');
@@ -185,3 +185,10 @@ function queryAPI(endpoint) {
       : Promise.reject(Error('Unsuccessful response'));
   });
 }
+
+async function main() {
+  const films = await queryAPI('films');
+  console.log(films);
+}
+
+main();
