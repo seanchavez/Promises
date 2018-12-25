@@ -147,24 +147,28 @@ function queryAPI(endpoint) {
 }
 // #endregion
 
-queryAPI('films')
-  .then(films => {
-    return queryAPI('planets').then(planets => {
-      output.innerText =
-        `${films.length} films, ` + `${planets.length} planets, `;
-    });
+// queryAPI('films')
+//   .then(films => {
+//     return queryAPI('planets').then(planets => {
+//       output.innerText =
+//         `${films.length} films, ` + `${planets.length} planets, `;
+//     });
+//   })
+//   .finally(() => {
+//     spinner.remove();
+//   });
+
+Promise.all([queryAPI('films'), queryAPI('planets'), queryAPI('species')])
+  .then(([films, planets, species]) => {
+    output.innerText =
+      `${films.length} films, ` +
+      `${planets.length} planets, ` +
+      `${species.length} species`;
+  })
+  .catch(error => {
+    console.warn(error);
+    output.innerText = ':(';
   })
   .finally(() => {
     spinner.remove();
   });
-
-const promise = Promise.all([queryAPI('films'), queryAPI('planets')]);
-
-promise.then(results => {
-  const films = results[0];
-  const planets = results[1];
-  output.innerText = `${films.length} films, ` + `${planets.length} planets, `;
-})
-.finally (() => {
-  spinner.remove();
-})
