@@ -188,9 +188,14 @@ function queryAPI(endpoint) {
 
 async function main() {
   try {
-    const films = await queryAPI('films');
+    const [films, planets] = await Promise.all([
+      queryAPI('films'),
+      queryAPI('planets'),
+      queryAPI('species'),
+    ]);
+
     console.log(films);
-    output.innerText = `${films.length} films`;
+    output.innerText = `${films.length} films, ` + `${planets.length} planets`;
   } catch (error) {
     console.warn(error);
     output.innerText = ':(';
