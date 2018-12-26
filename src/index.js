@@ -187,8 +187,16 @@ function queryAPI(endpoint) {
 }
 
 async function main() {
-  const films = await queryAPI('films');
-  console.log(films);
+  try {
+    const films = await queryAPI('films');
+    console.log(films);
+    output.innerText = `${films.length} films`;
+  } catch (error) {
+    console.warn(error);
+    output.innerText = ':(';
+  } finally {
+    spinner.remove();
+  }
 }
 
 main();
