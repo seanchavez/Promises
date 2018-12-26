@@ -178,12 +178,12 @@ const API_URL = 'https://starwars.egghead.training/';
 const output = document.getElementById('output');
 const spinner = document.getElementById('spinner');
 
-function queryAPI(endpoint) {
-  return fetch(API_URL + endpoint).then(response => {
-    return response.ok
-      ? response.json()
-      : Promise.reject(Error('Unsuccessful response'));
-  });
+async function queryAPI(endpoint) {
+  response = fetch(API_URL + endpoint);
+  if (response.ok) {
+    return response.json();
+  }
+  throw Error('Unsuccessful response');
 }
 
 async function main() {
@@ -193,8 +193,6 @@ async function main() {
       queryAPI('planets'),
       queryAPI('species'),
     ]);
-
-    console.log(films);
     output.innerText = `${films.length} films, ` + `${planets.length} planets`;
   } catch (error) {
     console.warn(error);
